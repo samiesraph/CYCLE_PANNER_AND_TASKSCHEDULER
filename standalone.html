@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SakuraCycle - Cycle-Aware Wellness & Productivity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sakura-pink: #FFB7D5;
+            --sakura-pink-light: #FFE4F0;
+            --sakura-pink-dark: #FF8FC7;
+            --sakura-purple: #E8D5FF;
+            --sakura-purple-light: #F5EDFF;
+            --sakura-cream: #FFF8F0;
+            --sakura-cream-dark: #FFEED6;
+            --text-primary: #5A4A5A;
+            --text-secondary: #8B7A8B;
+            --shadow-soft: rgba(255, 183, 213, 0.2);
+            --shadow-medium: rgba(255, 183, 213, 0.3);
+        }
+
+        body {
+            font-family: 'Comfortaa', cursive;
+            background: linear-gradient(135deg, var(--sakura-cream) 0%, var(--sakura-pink-light) 50%, var(--sakura-purple-light) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .sakura-petal {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--sakura-pink);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.6;
+            animation: float 15s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .sakura-petal:nth-child(2n) {
+            background: var(--sakura-purple);
+            animation-duration: 18s;
+        }
+
+        .sakura-petal:nth-child(3n) {
+            background: var(--sakura-pink-light);
+            animation-duration: 20s;
+            width: 15px;
+            height: 15px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        .navigation {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px var(--shadow-soft);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 32px var(--shadow-soft);
+            backdrop-filter: blur(10px);
+            margin: 16px 0;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Caveat', cursive;
+            color: var(--text-primary);
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 20px; }
+        h2 { font-size: 2rem; margin-bottom: 16px; }
+        h3 { font-size: 1.5rem; margin-bottom: 12px; }
+
+        .btn {
+            font-family: 'Comfortaa', cursive;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--shadow-soft);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-medium);
+        }
+
+        .input {
+            font-family: 'Comfortaa', cursive;
+            padding: 12px 16px;
+            border: 2px solid var(--sakura-pink-light);
+            border-radius: 15px;
+            background: white;
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 100%;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--sakura-pink);
+            box-shadow: 0 0 0 3px var(--shadow-soft);
+        }
+
+        .form-group {
+            margin: 16px 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        /* Games & exercise layout */
+        .two-column-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .game-card {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .game-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 12px 0 20px;
+        }
+
+        .breathing-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            background: radial-gradient(circle, #fff 0%, #ffe4f0 40%, #ffb7d5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 25px var(--shadow-soft);
+            transition: transform 4s ease-in-out;
+        }
+
+        .breathing-circle.inhale {
+            transform: scale(1.25);
+        }
+
+        .breathing-circle.exhale {
+            transform: scale(0.9);
+        }
+
+        .breathing-instruction {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .exercise-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .exercise-item {
+            padding-left: 26px;
+            position: relative;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .exercise-item::before {
+            content: "🌸";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .exercise-tag {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            background: var(--sakura-pink-light);
+            color: var(--text-secondary);
+        }
+
+        .pill-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .pill-tab {
+            border-radius: 999px;
+            border: 2px solid var(--sakura-pink-light);
+            padding: 6px 14px;
+            font-size: 13px;
+            cursor: pointer;
+            background: white;
+            color: var(--text-secondary);
+            font-family: 'Comfortaa', cursive;
+        }
+
+        .pill-tab.active {
+            background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 3px 12px var(--shadow-soft);
+        }
+
+        /* Exercise animation figure */
+        .exercise-animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            border-radius: 18px;
+            background: radial-gradient(circle at top, #ffe4f0 0%, #fffaf5 40%, #f5edff 100%);
+            box-shadow: 0 6px 24px var(--shadow-soft);
+            margin-bottom: 20px;
+        }
+
+        .exercise-figure {
+            width: 80px;
+            height: 120px;
+            position: relative;
+        }
+
+        .exercise-head {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #ffd1e6;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .exercise-body {
+            width: 32px;
+            height: 55px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #ffb7d5 0%, #e8d5ff 100%);
+            position: absolute;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .exercise-leg {
+            width: 10px;
+            height: 40px;
+            border-radius: 999px;
+            background: #ffc4dd;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .exercise-leg.left {
+            left: 34px;
+        }
+
+        .exercise-leg.right {
+            right: 34px;
+        }
+
+        .pose-cramps .exercise-body {
+            animation: pose-rock 3s ease-in-out infinite;
+        }
+
+        .pose-back .exercise-leg.left {
+            animation: leg-flow 3s ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        .pose-back .exercise-leg.right {
+            animation: leg-flow 3s ease-in-out infinite reverse;
+            transform-origin: top center;
+        }
+
+        .pose-full .exercise-body {
+            animation: full-breath 4s ease-in-out infinite;
+        }
+
+        @keyframes pose-rock {
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            50% { transform: translateX(-50%) rotate(-6deg); }
+        }
+
+        @keyframes leg-flow {
+            0%, 100% { transform: rotate(6deg); }
+            50% { transform: rotate(-6deg); }
+        }
+
+        @keyframes full-breath {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+
+        .exercise-arm {
+            width: 10px;
+            height: 36px;
+            border-radius: 999px;
+            background: #ffd1e6;
+            position: absolute;
+            top: 40px;
+        }
+
+        .exercise-arm.left {
+            left: 18px;
+            transform-origin: top center;
+        }
+
+        .exercise-arm.right {
+            right: 18px;
+            transform-origin: top center;
+        }
+
+        .exercise-figure .exercise-head {
+            transform-origin: center;
+        }
+
+        .pose-cramps .exercise-head {
+            animation: head-bob 2.6s ease-in-out infinite;
+        }
+
+        .pose-back .exercise-head {
+            animation: head-bob 3.2s ease-in-out infinite;
+        }
+
+        .pose-full .exercise-head {
+            animation: head-bob 4s ease-in-out infinite;
+        }
+
+        .pose-cramps .exercise-arm.left,
+        .pose-cramps .exercise-arm.right {
+            animation: arm-sway 2.2s ease-in-out infinite;
+        }
+
+        .pose-back .exercise-arm.left {
+            animation: arm-sway 2.8s ease-in-out infinite;
+        }
+
+        .pose-back .exercise-arm.right {
+            animation: arm-sway 2.8s ease-in-out infinite reverse;
+        }
+
+        .pose-full .exercise-arm.left,
+        .pose-full .exercise-arm.right {
+            animation: arm-sway 3.6s ease-in-out infinite;
+        }
+
+        @keyframes arm-sway {
+            0%, 100% { transform: rotate(10deg); }
+            50% { transform: rotate(-14deg); }
+        }
+
+        @keyframes head-bob {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-2px); }
+        }
+
+        /* Stronger “relief shake” */
+        .relief-shake {
+            animation: relief-shake 650ms ease-in-out 1;
+        }
+
+        @keyframes relief-shake {
+            0% { transform: translateX(0); }
+            15% { transform: translateX(-3px) rotate(-1deg); }
+            30% { transform: translateX(3px) rotate(1deg); }
+            45% { transform: translateX(-3px) rotate(-1deg); }
+            60% { transform: translateX(3px) rotate(1deg); }
+            75% { transform: translateX(-2px) rotate(-0.5deg); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Cozy Pet Game */
+        .pet-stage {
+            position: relative;
+            height: 220px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #fffaf5 0%, #ffe4f0 55%, #f5edff 100%);
+            overflow: hidden;
+            box-shadow: 0 6px 20px var(--shadow-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .pet {
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px var(--shadow-soft);
+            transition: transform 200ms ease;
+        }
+
+        .pet-face {
+            font-size: 3.2rem;
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.06));
+        }
+
+        .pet-tail {
+            position: absolute;
+            width: 34px;
+            height: 12px;
+            border-radius: 999px;
+            background: #ffd1e6;
+            right: -18px;
+            bottom: 34px;
+            transform-origin: left center;
+            opacity: 0.9;
+        }
+
+        .pet.cat .pet-tail {
+            background: #e8d5ff;
+        }
+
+        .pet.dog .pet-tail {
+            background: #ffb7d5;
+        }
+
+        .pet.wag .pet-tail {
+            animation: tail-wag 650ms ease-in-out infinite;
+        }
+
+        @keyframes tail-wag {
+            0%, 100% { transform: rotate(10deg); }
+            50% { transform: rotate(-22deg); }
+        }
+
+        .pet.pet-bounce {
+            animation: pet-bounce 480ms ease-in-out 1;
+        }
+
+        @keyframes pet-bounce {
+            0% { transform: translateY(0); }
+            40% { transform: translateY(-6px) scale(1.03); }
+            100% { transform: translateY(0); }
+        }
+
+        .float-heart {
+            position: absolute;
+            font-size: 1.4rem;
+            animation: float-up 1200ms ease-in-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(10px) scale(0.9); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-60px) scale(1.05); opacity: 0; }
+        }
+
+        .bubble {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 183, 213, 0.35);
+            animation: bubble-up 1400ms ease-in-out forwards;
+        }
+
+        @keyframes bubble-up {
+            0% { transform: translateY(20px) scale(0.8); opacity: 0; }
+            25% { opacity: 1; }
+            100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
+        }
+
+        .snack {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: snack-float 900ms ease-in-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes snack-float {
+            0% { transform: translateY(10px); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-40px); opacity: 0; }
+        }
+
+        .meter-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .meter {
+            display: grid;
+            grid-template-columns: 92px 1fr 44px;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .meter-bar {
+            height: 10px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px rgba(255, 183, 213, 0.2);
+        }
+
+        .meter-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 400ms ease;
+            background: linear-gradient(90deg, var(--sakura-purple) 0%, var(--sakura-pink) 60%, var(--sakura-pink-dark) 100%);
+        }
+
+        .pet-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        /* Awareness / cycle animation */
+        .awareness-layout {
+            display: grid;
+            grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 900px) {
+            .awareness-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cycle-visual {
+            border-radius: 24px;
+            padding: 20px;
+            background: radial-gradient(circle at top, #ffe4f0 0%, #fff8f0 45%, #f5edff 100%);
+            box-shadow: 0 8px 26px var(--shadow-soft);
+        }
+
+        .cycle-circle {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            background:
+                conic-gradient(
+                    #ffb7d5 0deg 70deg,
+                    #f5edff 70deg 165deg,
+                    #ffe4f0 165deg 235deg,
+                    #e8d5ff 235deg 360deg
+                );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cycle-inner {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 4px 14px var(--shadow-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .cycle-pointer {
+            position: absolute;
+            width: 4px;
+            height: 110px;
+            background: linear-gradient(180deg, var(--sakura-pink-dark), transparent);
+            top: 10px;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 999px;
+            animation: cycle-rotate 18s linear infinite;
+        }
+
+        .cycle-dot {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ff8fc7;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px rgba(255, 183, 213, 0.4);
+        }
+
+        @keyframes cycle-rotate {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        .phase-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .phase-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .phase-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+        }
+
+        .awareness-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .awareness-list li {
+            padding-left: 24px;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+
+        .awareness-list li::before {
+            content: "•";
+            position: absolute;
+            left: 10px;
+            top: 0;
+            color: var(--sakura-pink-dark);
+        }
+
+        .awareness-tip {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sakura-container" id="petals"></div>
+    <div class="app-container" id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Cycle Calculator Utilities
+        const PHASES = {
+            MENSTRUAL: 'menstrual',
+            FOLLICULAR: 'follicular',
+            OVULATION: 'ovulation',
+            LUTEAL: 'luteal'
+        };
+
+        function calculateCycleDay(lastPeriodStart, cycleLength = 28) {
+            const today = new Date();
+            const lastPeriod = new Date(lastPeriodStart);
+            const diffTime = today - lastPeriod;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            return (diffDays % cycleLength) + 1;
+        }
+
+        function calculatePhase(cycleDay, cycleLength = 28, periodDuration = 5) {
+            if (cycleDay <= periodDuration) return PHASES.MENSTRUAL;
+            if (cycleDay <= 13) return PHASES.FOLLICULAR;
+            if (cycleDay <= 16) return PHASES.OVULATION;
+            return PHASES.LUTEAL;
+        }
+
+        function predictMood(phase, symptoms = []) {
+            const phaseMoodMap = {
+                [PHASES.MENSTRUAL]: 'low',
+                [PHASES.FOLLICULAR]: 'high',
+                [PHASES.OVULATION]: 'high',
+                [PHASES.LUTEAL]: 'low'
+            };
+            let baseMood = phaseMoodMap[phase] || 'neutral';
+            if (symptoms.includes('anxiety') || symptoms.includes('fatigue')) {
+                if (baseMood === 'high') baseMood = 'neutral';
+                if (baseMood === 'neutral') baseMood = 'low';
+            }
+            return baseMood;
+        }
+
+        function predictEnergy(phase, symptoms = []) {
+            const phaseEnergyMap = {
+                [PHASES.MENSTRUAL]: 3,
+                [PHASES.FOLLICULAR]: 8,
+                [PHASES.OVULATION]: 9,
+                [PHASES.LUTEAL]: 4
+            };
+            let energy = phaseEnergyMap[phase] || 5;
+            if (symptoms.includes('fatigue')) energy = Math.max(1, energy - 2);
+            if (symptoms.includes('cramps')) energy = Math.max(1, energy - 1);
+            return energy;
+        }
+
+        function predictFocus(phase, symptoms = []) {
+            const phaseFocusMap = {
+                [PHASES.MENSTRUAL]: 4,
+                [PHASES.FOLLICULAR]: 8,
+                [PHASES.OVULATION]: 9,
+                [PHASES.LUTEAL]: 5
+            };
+            let focus = phaseFocusMap[phase] || 6;
+            if (symptoms.includes('headaches')) focus = Math.max(1, focus - 2);
+            if (symptoms.includes('anxiety')) focus = Math.max(1, focus - 1);
+            return focus;
+        }
+
+        function getPhaseName(phase) {
+            const names = {
+                [PHASES.MENSTRUAL]: 'Menstrual',
+                [PHASES.FOLLICULAR]: 'Follicular',
+                [PHASES.OVULATION]: 'Ovulation',
+                [PHASES.LUTEAL]: 'Luteal'
+            };
+            return names[phase] || 'Unknown';
+        }
+
+        // Storage Utilities
+        function getCycleData() {
+            try {
+                const data = localStorage.getItem('sakuraCycle_data');
+                return data ? JSON.parse(data) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function saveCycleData(data) {
+            try {
+                localStorage.setItem('sakuraCycle_data', JSON.stringify(data));
+            } catch (e) {
+                console.error('Error saving:', e);
+            }
+        }
+
+        function clearCycleData() {
+            try {
+                localStorage.removeItem('sakuraCycle_data');
+            } catch (e) {
+                console.error('Error clearing cycle data:', e);
+            }
+        }
+
+        // Soft chime helper (used when sound is enabled)
+        function playSoftChime() {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            if (!window._sakuraAudioCtx) {
+                window._sakuraAudioCtx = new AudioCtx();
+            }
+            const ctx = window._sakuraAudioCtx;
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(660, now);
+            gain.gain.setValueAtTime(0.001, now);
+            gain.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.45);
+        }
+
+        function MenstruationAwareness() {
+            return (
+                <div className="container">
+                    <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+                        <h1>🌺 Menstrual Cycle Awareness</h1>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>
+                            A gentle, visual way to understand what your body moves through each month.
+                            Every phase has a purpose, and none of them are “lazy” or “too much”.
+                        </p>
+                    </div>
+
+                    <div className="awareness-layout">
+                        <div className="cycle-visual">
+                            <div className="cycle-circle">
+                                <div className="cycle-pointer">
+                                    <div className="cycle-dot" />
+                                </div>
+                                <div className="cycle-inner">
+                                    Your cycle is a repeating rhythm of{" "}
+                                    <strong>menstruation, rebuild, release, and reset</strong>.
+                                </div>
+                            </div>
+
+                            <div className="phase-legend">
+                                <div className="phase-pill">
+                                    <span className="phase-swatch" style={{ background: '#ffb7d5' }} />
+                                    <span>Menstrual – shedding the lining</span>
+                                </div>
+                                <div className="phase-pill">
+                                    <span className="phase-swatch" style={{ background: '#f5edff' }} />
+                                    <span>Follicular – energy gently rising</span>
+                                </div>
+                                <div className="phase-pill">
+                                    <span className="phase-swatch" style={{ background: '#ffe4f0' }} />
+                                    <span>Ovulation – peak fertility window</span>
+                                </div>
+                                <div className="phase-pill">
+                                    <span className="phase-swatch" style={{ background: '#e8d5ff' }} />
+                                    <span>Luteal – pre-period slow-down</span>
+                                </div>
+                            </div>
+
+                            <p className="awareness-tip">
+                                The rotating line shows how your phase gently shifts over the month. It’s
+                                totally normal to feel different in each phase.
+                            </p>
+                        </div>
+
+                        <div className="card">
+                            <h2>🩸 What’s happening in your body?</h2>
+                            <ul className="awareness-list">
+                                <li>
+                                    <strong>Menstrual phase</strong> – the uterus releases its lining.
+                                    Hormones like estrogen and progesterone are low, so energy and mood
+                                    can dip. <em>Rest is biologically smart here.</em>
+                                </li>
+                                <li>
+                                    <strong>Follicular phase</strong> – your brain signals the ovaries to
+                                    prepare an egg. Estrogen rises, often bringing more curiosity,
+                                    motivation, and social energy.
+                                </li>
+                                <li>
+                                    <strong>Ovulation</strong> – one mature egg is released. This is the
+                                    window when pregnancy is most likely. Many people notice higher
+                                    confidence and outward energy.
+                                </li>
+                                <li>
+                                    <strong>Luteal phase</strong> – the body waits to see if pregnancy
+                                    happened. If not, hormone levels fall again. This is when PMS,
+                                    cravings, and sensitivity often show up.
+                                </li>
+                            </ul>
+
+                            <p className="awareness-tip">
+                                None of these phases are “overreacting” or “too emotional” – they are
+                                your body responding to real hormonal changes.
+                            </p>
+
+                            <div style={{ marginTop: '18px' }}>
+                                <h3>🌸 Gentle reminders</h3>
+                                <ul className="awareness-list">
+                                    <li>Your worth and productivity are not measured by one phase.</li>
+                                    <li>Needing rest during your period is as valid as needing sleep at night.</li>
+                                    <li>Tracking your cycle can help you schedule big tasks around your natural energy waves.</li>
+                                </ul>
+                            </div>
+
+                            <div style={{ marginTop: '18px', padding: '12px', borderRadius: '12px', background: 'rgba(255, 248, 240, 0.9)' }}>
+                                <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+                                    ⚠️ This is simplified educational info, not medical advice. Bodies are
+                                    unique, and cycle experiences can vary a lot. Please talk with a
+                                    healthcare professional about pain, heavy bleeding, or cycle changes
+                                    that worry you.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Sakura Petals Animation
+        function createPetals() {
+            const container = document.getElementById('petals');
+            if (!container) return;
+            
+            for (let i = 0; i < 15; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'sakura-petal';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 15 + 's';
+                petal.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(petal);
+            }
+        }
+
+        // Navigation Component
+        function Navigation({ currentPage, onNavigate, onResetSetup, showReset }) {
+            return (
+                <nav className="navigation">
+                    <div className="nav-container">
+                        <div className="nav-logo">
+                            <span>🌸</span>
+                            <span>SakuraCycle</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div className="nav-links">
+                                <a href="#" className={`nav-link ${currentPage === 'dashboard' ? 'active' : ''}`}
+                                   onClick={(e) => { e.preventDefault(); onNavigate('dashboard'); }}>
+                                    Dashboard
+                                </a>
+                                <a href="#" className={`nav-link ${currentPage === 'awareness' ? 'active' : ''}`}
+                                   onClick={(e) => { e.preventDefault(); onNavigate('awareness'); }}>
+                                    Awareness
+                                </a>
+                                <a href="#" className={`nav-link ${currentPage === 'games' ? 'active' : ''}`}
+                                   onClick={(e) => { e.preventDefault(); onNavigate('games'); }}>
+                                    Games
+                                </a>
+                                <a href="#" className={`nav-link ${currentPage === 'exercise' ? 'active' : ''}`}
+                                   onClick={(e) => { e.preventDefault(); onNavigate('exercise'); }}>
+                                    Exercise
+                                </a>
+                                <a href="#" className={`nav-link ${currentPage === 'companion' ? 'active' : ''}`}
+                                   onClick={(e) => { e.preventDefault(); onNavigate('companion'); }}>
+                                    Companion
+                                </a>
+                            </div>
+                            {showReset && (
+                                <button
+                                    type="button"
+                                    className="btn"
+                                    style={{ padding: '6px 12px', fontSize: '11px' }}
+                                    onClick={() => {
+                                        if (window.confirm('Reset your cycle setup and go back to the start page?')) {
+                                            onResetSetup && onResetSetup();
+                                        }
+                                    }}
+                                >
+                                    Reset setup
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </nav>
+            );
+        }
+
+        // Cycle Setup Component
+        function CycleSetup({ onSetup }) {
+            const [formData, setFormData] = useState({
+                lastPeriodStart: '',
+                cycleLength: 28,
+                periodDuration: 5,
+                symptoms: []
+            });
+
+            const symptomsList = ['cramps', 'fatigue', 'anxiety', 'headaches'];
+
+            const handleChange = (e) => {
+                const { name, value, type, checked } = e.target;
+                if (type === 'checkbox') {
+                    setFormData(prev => ({
+                        ...prev,
+                        symptoms: checked
+                            ? [...prev.symptoms, name]
+                            : prev.symptoms.filter(s => s !== name)
+                    }));
+                } else {
+                    setFormData(prev => ({
+                        ...prev,
+                        [name]: type === 'number' ? parseInt(value) : value
+                    }));
+                }
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (formData.lastPeriodStart) {
+                    onSetup(formData);
+                }
+            };
+
+            return (
+                <div className="container">
+                    <div className="card">
+                        <h1>🌸 Welcome to SakuraCycle</h1>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
+                            Let's personalize your wellness journey
+                        </p>
+                        
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label>Last Period Start Date *</label>
+                                <input
+                                    type="date"
+                                    name="lastPeriodStart"
+                                    value={formData.lastPeriodStart}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required
+                                    max={new Date().toISOString().split('T')[0]}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Average Cycle Length (days)</label>
+                                <input
+                                    type="number"
+                                    name="cycleLength"
+                                    value={formData.cycleLength}
+                                    onChange={handleChange}
+                                    className="input"
+                                    min="21"
+                                    max="35"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Average Period Duration (days)</label>
+                                <input
+                                    type="number"
+                                    name="periodDuration"
+                                    value={formData.periodDuration}
+                                    onChange={handleChange}
+                                    className="input"
+                                    min="3"
+                                    max="7"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Common Symptoms (optional)</label>
+                                {symptomsList.map(symptom => (
+                                    <label key={symptom} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+                                        <input
+                                            type="checkbox"
+                                            name={symptom}
+                                            checked={formData.symptoms.includes(symptom)}
+                                            onChange={handleChange}
+                                        />
+                                        <span>{symptom.charAt(0).toUpperCase() + symptom.slice(1)}</span>
+                                    </label>
+                                ))}
+                            </div>
+
+                            <button type="submit" className="btn" style={{ marginTop: '16px', width: '100%' }}>
+                                Start My Journey 🌸
+                            </button>
+                        </form>
+
+                        <div style={{ marginTop: '24px', padding: '16px', background: 'var(--sakura-cream)', borderRadius: '12px', textAlign: 'center' }}>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '13px', margin: 0 }}>
+                                💝 Your data is stored locally on your device and never shared.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Dashboard Component
+        function Dashboard({ cycleData }) {
+            const [predictions, setPredictions] = useState(null);
+
+            useEffect(() => {
+                if (cycleData) {
+                    const cycleDay = calculateCycleDay(cycleData.lastPeriodStart, cycleData.cycleLength);
+                    const phase = calculatePhase(cycleDay, cycleData.cycleLength, cycleData.periodDuration);
+                    const mood = predictMood(phase, cycleData.symptoms);
+                    const energy = predictEnergy(phase, cycleData.symptoms);
+                    const focus = predictFocus(phase, cycleData.symptoms);
+
+                    setPredictions({
+                        cycleDay,
+                        phase,
+                        phaseName: getPhaseName(phase),
+                        mood,
+                        energy,
+                        focus
+                    });
+                }
+            }, [cycleData]);
+
+            if (!cycleData || !predictions) {
+                return <div className="container"><div className="card">Loading...</div></div>;
+            }
+
+            const moodEmoji = predictions.mood === 'low' ? '🌙' : predictions.mood === 'high' ? '✨' : '☁️';
+            const moodLabel = predictions.mood === 'low' ? 'Low Mood' : predictions.mood === 'high' ? 'High Mood' : 'Neutral';
+
+            return (
+                <div className="container">
+                    <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                        <h1>Your Cycle Dashboard 🌸</h1>
+                        <p style={{ color: 'var(--text-secondary)' }}>Welcome back! Here's what your body is telling you today.</p>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: '32px' }}>
+                        <div className="card" style={{ background: 'linear-gradient(135deg, rgba(255, 183, 213, 0.2) 0%, rgba(232, 213, 255, 0.2) 100%)' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                <h2>Current Phase</h2>
+                                <span style={{ background: 'linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%)', color: 'white', padding: '6px 16px', borderRadius: '20px', fontSize: '14px', fontWeight: '600' }}>
+                                    {predictions.phaseName}
+                                </span>
+                            </div>
+                            <div style={{ textAlign: 'center', padding: '16px', background: 'rgba(255, 255, 255, 0.6)', borderRadius: '15px', marginTop: '16px' }}>
+                                <div style={{ fontSize: '12px', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '8px' }}>Cycle Day</div>
+                                <div style={{ fontSize: '2.5rem', fontWeight: '700', color: 'var(--sakura-pink-dark)', fontFamily: "'Caveat', cursive" }}>
+                                    {predictions.cycleDay}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <h2>Today's Predictions</h2>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px', background: 'rgba(255, 255, 255, 0.6)', borderRadius: '15px', margin: '16px 0', border: '2px solid var(--sakura-pink)' }}>
+                                <span style={{ fontSize: '3rem' }}>{moodEmoji}</span>
+                                <div>
+                                    <div style={{ fontSize: '18px', fontWeight: '700', color: 'var(--sakura-pink)' }}>{moodLabel}</div>
+                                    <div style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Time for gentle self-care</div>
+                                </div>
+                            </div>
+                            <div style={{ marginTop: '20px' }}>
+                                <div style={{ marginBottom: '16px' }}>
+                                    <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>Energy: {predictions.energy}/10</div>
+                                    <div style={{ width: '100%', height: '12px', background: 'var(--sakura-cream)', borderRadius: '10px', overflow: 'hidden' }}>
+                                        <div style={{ width: `${predictions.energy * 10}%`, height: '100%', background: 'linear-gradient(90deg, var(--sakura-pink) 0%, var(--sakura-pink-dark) 100%)', borderRadius: '10px', transition: 'width 1s ease' }}></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>Focus: {predictions.focus}/10</div>
+                                    <div style={{ width: '100%', height: '12px', background: 'var(--sakura-cream)', borderRadius: '10px', overflow: 'hidden' }}>
+                                        <div style={{ width: `${predictions.focus * 10}%`, height: '100%', background: 'linear-gradient(90deg, var(--sakura-purple) 0%, var(--sakura-pink) 100%)', borderRadius: '10px', transition: 'width 1s ease' }}></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card" style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '13px', lineHeight: '1.6', margin: 0 }}>
+                            💡 <strong>Remember:</strong> This is wellness guidance based on general patterns, not medical advice. Always consult healthcare professionals for medical concerns.
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Breathing game for stress relief
+        function BreathingGame({ onSoftReward }) {
+            const [isActive, setIsActive] = useState(false);
+            const [phase, setPhase] = useState('inhale'); // inhale | hold | exhale
+
+            useEffect(() => {
+                if (!isActive) return;
+
+                let cancelled = false;
+                const sequence = ['inhale', 'hold', 'exhale'];
+                let index = 0;
+
+                const runCycle = () => {
+                    if (cancelled) return;
+                    const current = sequence[index];
+                    setPhase(current);
+
+                    const duration =
+                        current === 'inhale' ? 4000 :
+                        current === 'hold' ? 2000 :
+                        6000;
+
+                    setTimeout(() => {
+                        if (cancelled) return;
+                        index = (index + 1) % sequence.length;
+                        runCycle();
+                    }, duration);
+                };
+
+                runCycle();
+
+                return () => { cancelled = true; };
+            }, [isActive]);
+
+            const instruction =
+                phase === 'inhale' ? 'Breathe in slowly…' :
+                phase === 'hold' ? 'Gently hold…' :
+                'Breathe out softly…';
+
+            return (
+                <div className="card">
+                    <h2>🌬️ Calming Breathing Petals</h2>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>
+                        Follow the expanding sakura circle to slow your breath and send a \"relax\" signal
+                        to your nervous system.
+                    </p>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', margin: '24px 0' }}>
+                        <div className={`breathing-circle ${isActive ? phase : ''}`}>
+                            <span className="breathing-instruction">{instruction}</span>
+                        </div>
+                        <p style={{ fontSize: '13px', color: 'var(--text-secondary)', maxWidth: '320px', textAlign: 'center' }}>
+                            Try 5–8 rounds. Longer exhales (exhale > inhale) can gently ease anxiety
+                            and help relax cramp-related muscle tension.
+                        </p>
+                    </div>
+
+                    <button
+                        className="btn"
+                        onClick={() => {
+                            const next = !isActive;
+                            setIsActive(next);
+                            if (next && typeof onSoftReward === 'function') {
+                                onSoftReward();
+                            }
+                        }}
+                    >
+                        {isActive ? 'Pause Breathing' : 'Start Breathing Flow'}
+                    </button>
+                </div>
+            );
+        }
+
+        // Simple memory / focus game
+        function MemoryGame({ onSoftReward }) {
+            const EMOJIS = ['🌸', '🌺', '🌷', '🌻'];
+            const [cards, setCards] = useState([]);
+            const [flipped, setFlipped] = useState([]);
+            const [matched, setMatched] = useState([]);
+
+            useEffect(() => {
+                const pairs = [...EMOJIS, ...EMOJIS]
+                    .map((emoji, index) => ({ id: index, emoji }))
+                    .sort(() => Math.random() - 0.5);
+                setCards(pairs);
+                setFlipped([]);
+                setMatched([]);
+            }, []);
+
+            const handleClick = (id) => {
+                if (flipped.length === 2 || flipped.includes(id) || matched.includes(id)) return;
+
+                const newFlipped = [...flipped, id];
+                setFlipped(newFlipped);
+
+                if (newFlipped.length === 2) {
+                    const [a, b] = newFlipped;
+                    const first = cards.find(c => c.id === a);
+                    const second = cards.find(c => c.id === b);
+
+                    if (first && second && first.emoji === second.emoji) {
+                        setMatched([...matched, a, b]);
+                        if (typeof onSoftReward === 'function') {
+                            onSoftReward();
+                        }
+                        setFlipped([]);
+                    } else {
+                        setTimeout(() => setFlipped([]), 800);
+                    }
+                }
+            };
+
+            const resetGame = () => {
+                const pairs = [...EMOJIS, ...EMOJIS]
+                    .map((emoji, index) => ({ id: index, emoji }))
+                    .sort(() => Math.random() - 0.5);
+                setCards(pairs);
+                setFlipped([]);
+                setMatched([]);
+            };
+
+            return (
+                <div className="card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                        <h2>🧠 Gentle Focus Match</h2>
+                        <button className="btn" style={{ padding: '8px 14px', fontSize: '12px' }} onClick={resetGame}>
+                            Restart
+                        </button>
+                    </div>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>
+                        Match the sakura pairs at your own pace. Light, low-pressure focus can be a
+                        soothing distraction from cramps or stress.
+                    </p>
+
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(4, minmax(40px, 1fr))',
+                        gap: '10px'
+                    }}>
+                        {cards.map(card => {
+                            const isFaceUp = flipped.includes(card.id) || matched.includes(card.id);
+                            return (
+                                <button
+                                    key={card.id}
+                                    onClick={() => handleClick(card.id)}
+                                    style={{
+                                        border: 'none',
+                                        borderRadius: '12px',
+                                        height: '60px',
+                                        fontSize: '1.6rem',
+                                        cursor: 'pointer',
+                                        background: isFaceUp
+                                            ? '#ffffff'
+                                            : 'linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%)',
+                                        color: isFaceUp ? '#333' : '#fff',
+                                        boxShadow: '0 4px 12px var(--shadow-soft)',
+                                        transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                                    }}
+                                >
+                                    {isFaceUp ? card.emoji : '🌸'}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            );
+        }
+
+        // Petal tap game – tap gently falling petals
+        function PetalTapGame({ onSoftReward }) {
+            const [petals, setPetals] = useState([]);
+            const [score, setScore] = useState(0);
+
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    setPetals(prev => {
+                        const next = prev
+                            .map(p => ({ ...p, y: p.y + p.speed }))
+                            .filter(p => p.y < 100);
+
+                        if (next.length < 6) {
+                            next.push({
+                                id: Date.now(),
+                                x: Math.random() * 80 + 10,
+                                y: -10,
+                                speed: 1 + Math.random() * 0.7
+                            });
+                        }
+
+                        return next;
+                    });
+                }, 80);
+
+                return () => clearInterval(interval);
+            }, []);
+
+            const handleTap = (id) => {
+                setPetals(prev => prev.filter(p => p.id !== id));
+                setScore(s => s + 1);
+                if (typeof onSoftReward === 'function') {
+                    onSoftReward();
+                }
+            };
+
+            return (
+                <div className="card">
+                    <h2>🌸 Soft Petal Taps</h2>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '10px' }}>
+                        Tap the petals as they float down. No timer, no pressure—just a tiny, playful
+                        focus shift when your mind feels heavy.
+                    </p>
+                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '10px' }}>
+                        Score: <strong>{score}</strong> petals caught
+                    </p>
+
+                    <div style={{
+                        position: 'relative',
+                        height: '220px',
+                        borderRadius: '16px',
+                        background: 'linear-gradient(180deg, #fffaf5 0%, #ffe4f0 50%, #f5edff 100%)',
+                        overflow: 'hidden'
+                    }}>
+                        {petals.map(petal => (
+                            <button
+                                key={petal.id}
+                                onClick={() => handleTap(petal.id)}
+                                style={{
+                                    position: 'absolute',
+                                    left: `${petal.x}%`,
+                                    top: `${petal.y}%`,
+                                    border: 'none',
+                                    background: 'transparent',
+                                    cursor: 'pointer',
+                                    transform: 'translate(-50%, -50%)',
+                                    fontSize: '1.5rem'
+                                }}
+                            >
+                                🌸
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        function GratitudeGame({ onSoftReward }) {
+            const prompts = [
+                "Someone who made you feel seen today",
+                "A tiny comfort in your space (blanket, mug, plant…)",
+                "Something your body did for you today",
+                "A moment you handled better than you expected",
+                "A soft thing you’re looking forward to"
+            ];
+            const [prompt, setPrompt] = useState(prompts[0]);
+            const [text, setText] = useState('');
+            const [entries, setEntries] = useState([]);
+
+            const shufflePrompt = () => {
+                const next = prompts[Math.floor(Math.random() * prompts.length)];
+                setPrompt(next);
+            };
+
+            const handleAdd = () => {
+                if (!text.trim()) return;
+                setEntries(prev => [{ id: Date.now(), text: text.trim() }, ...prev].slice(0, 5));
+                setText('');
+                if (typeof onSoftReward === 'function') {
+                    onSoftReward();
+                }
+                shufflePrompt();
+            };
+
+            return (
+                <div className="card">
+                    <h2>💗 Gentle Gratitude Notes</h2>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '12px' }}>
+                        Not “be positive”, just noticing tiny things that are holding you today. Your notes
+                        stay here in this browser only.
+                    </p>
+                    <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+                        Prompt: <strong>{prompt}</strong>
+                    </div>
+                    <textarea
+                        value={text}
+                        onChange={e => setText(e.target.value)}
+                        rows={3}
+                        placeholder="Write a short, honest sentence…"
+                        style={{
+                            width: '100%',
+                            borderRadius: '14px',
+                            border: '2px solid var(--sakura-pink-light)',
+                            padding: '10px 12px',
+                            fontFamily: 'Comfortaa, cursive',
+                            fontSize: '13px',
+                            resize: 'vertical',
+                            marginBottom: '10px'
+                        }}
+                    />
+                    <div style={{ display: 'flex', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                        <button className="btn" style={{ padding: '8px 16px', fontSize: '12px' }} onClick={handleAdd}>
+                            Save note 🌸
+                        </button>
+                        <button
+                            type="button"
+                            className="btn"
+                            style={{
+                                padding: '8px 14px',
+                                fontSize: '12px',
+                                background: 'linear-gradient(135deg, var(--sakura-purple) 0%, var(--sakura-pink-light) 100%)'
+                            }}
+                            onClick={shufflePrompt}
+                        >
+                            New prompt
+                        </button>
+                    </div>
+                    {entries.length > 0 && (
+                        <div style={{ marginTop: '6px' }}>
+                            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px' }}>
+                                Recent notes:
+                            </p>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                {entries.map(e => (
+                                    <li key={e.id} style={{
+                                        padding: '8px 10px',
+                                        borderRadius: '10px',
+                                        background: 'rgba(255, 248, 240, 0.9)',
+                                        fontSize: '13px',
+                                        lineHeight: '1.5'
+                                    }}>
+                                        <span style={{ marginRight: '6px' }}>🌸</span>{e.text}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function PetCareGame({ onSoftReward }) {
+            const [petType, setPetType] = useState('cat'); // cat | dog
+            const [hunger, setHunger] = useState(65); // 0-100 (higher = better fed)
+            const [clean, setClean] = useState(70);   // 0-100
+            const [love, setLove] = useState(60);     // 0-100
+            const [message, setMessage] = useState('Say hi to your cozy buddy. 🌸');
+            const [wag, setWag] = useState(true);
+            const [hearts, setHearts] = useState([]);
+            const [bubbles, setBubbles] = useState([]);
+            const [snacks, setSnacks] = useState([]);
+            const [bounce, setBounce] = useState(false);
+
+            // gentle decay over time (no pressure)
+            useEffect(() => {
+                const t = setInterval(() => {
+                    setHunger(v => Math.max(0, v - 1));
+                    setClean(v => Math.max(0, v - 1));
+                    setLove(v => Math.max(0, v - 0.5));
+                }, 3500);
+                return () => clearInterval(t);
+            }, []);
+
+            useEffect(() => {
+                const ok = hunger > 35 && clean > 35;
+                setWag(ok);
+            }, [hunger, clean]);
+
+            const soft = () => {
+                if (typeof onSoftReward === 'function') onSoftReward();
+            };
+
+            const burstHearts = () => {
+                const id = Date.now();
+                setHearts(prev => [...prev, { id, x: 50 + (Math.random() * 24 - 12), y: 55 }]);
+                setTimeout(() => setHearts(prev => prev.filter(h => h.id !== id)), 1200);
+            };
+
+            const burstBubbles = () => {
+                const base = Date.now();
+                const batch = Array.from({ length: 6 }, (_, i) => ({
+                    id: base + i,
+                    x: 40 + Math.random() * 20,
+                    y: 70 + Math.random() * 10,
+                    size: 10 + Math.random() * 10
+                }));
+                setBubbles(prev => [...prev, ...batch]);
+                setTimeout(() => {
+                    setBubbles(prev => prev.filter(b => !batch.some(x => x.id === b.id)));
+                }, 1400);
+            };
+
+            const snackPop = () => {
+                const id = Date.now();
+                setSnacks(prev => [...prev, { id, x: 50 + (Math.random() * 26 - 13), y: 55 }]);
+                setTimeout(() => setSnacks(prev => prev.filter(s => s.id !== id)), 900);
+            };
+
+            const doBounce = () => {
+                setBounce(true);
+                setTimeout(() => setBounce(false), 520);
+            };
+
+            const clamp = (n) => Math.max(0, Math.min(100, n));
+
+            const petEmoji =
+                petType === 'cat'
+                    ? (love > 70 ? '😺' : love > 35 ? '🐱' : '🙀')
+                    : (love > 70 ? '🐶' : love > 35 ? '🐕' : '🥺');
+
+            const overall =
+                Math.round((hunger + clean + love) / 3);
+
+            const status =
+                overall >= 75 ? 'Very cozy ✨' :
+                overall >= 45 ? 'Okay-ish ☁️' :
+                'Needs gentle care 🌙';
+
+            const Feed = () => {
+                setHunger(v => clamp(v + 18));
+                setMessage(petType === 'cat' ? 'Nom nom… purr. 🐟' : 'Chomp chomp! Tail wiggles. 🦴');
+                snackPop();
+                doBounce();
+                soft();
+            };
+
+            const Pet = () => {
+                setLove(v => clamp(v + 16));
+                setMessage(petType === 'cat' ? 'Purr… you’re safe here. 💗' : 'Happy wiggles! I love you. 💗');
+                burstHearts();
+                doBounce();
+                soft();
+            };
+
+            const CleanIt = () => {
+                setClean(v => clamp(v + 22));
+                setMessage('Bubble bath time… all fresh now. 🫧');
+                burstBubbles();
+                doBounce();
+                soft();
+            };
+
+            const switchPet = (next) => {
+                setPetType(next);
+                setMessage(next === 'cat' ? 'A shy kitty appears… 🐾' : 'A friendly pup trots in… 🐾');
+                doBounce();
+                soft();
+            };
+
+            return (
+                <div className="card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                        <h2>🐾 Cozy Pet Care</h2>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <button
+                                className="btn"
+                                style={{ padding: '7px 12px', fontSize: '12px', background: petType === 'cat' ? 'linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%)' : 'linear-gradient(135deg, var(--sakura-purple) 0%, var(--sakura-pink-light) 100%)' }}
+                                onClick={() => switchPet('cat')}
+                            >
+                                Cat
+                            </button>
+                            <button
+                                className="btn"
+                                style={{ padding: '7px 12px', fontSize: '12px', background: petType === 'dog' ? 'linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%)' : 'linear-gradient(135deg, var(--sakura-purple) 0%, var(--sakura-pink-light) 100%)' }}
+                                onClick={() => switchPet('dog')}
+                            >
+                                Dog
+                            </button>
+                        </div>
+                    </div>
+
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '8px' }}>
+                        A tiny, imaginary buddy to help you unwind. Feed, pet, and clean them when you need a soft break.
+                    </p>
+
+                    <div className="pet-stage">
+                        <div className={`pet ${petType} ${wag ? 'wag' : ''} ${bounce ? 'pet-bounce' : ''}`}>
+                            <div className="pet-face">{petEmoji}</div>
+                            <div className="pet-tail" />
+                        </div>
+
+                        {hearts.map(h => (
+                            <div
+                                key={h.id}
+                                className="float-heart"
+                                style={{ left: `${h.x}%`, top: `${h.y}%` }}
+                            >
+                                💗
+                            </div>
+                        ))}
+
+                        {snacks.map(s => (
+                            <div
+                                key={s.id}
+                                className="snack"
+                                style={{ left: `${s.x}%`, top: `${s.y}%` }}
+                            >
+                                {petType === 'cat' ? '🐟' : '🦴'}
+                            </div>
+                        ))}
+
+                        {bubbles.map(b => (
+                            <div
+                                key={b.id}
+                                className="bubble"
+                                style={{ left: `${b.x}%`, top: `${b.y}%`, width: `${b.size}px`, height: `${b.size}px` }}
+                            />
+                        ))}
+                    </div>
+
+                    <div style={{ marginTop: '10px', fontSize: '13px', color: 'var(--text-secondary)', textAlign: 'center' }}>
+                        <strong>{status}</strong> — {message}
+                    </div>
+
+                    <div className="meter-row">
+                        <div className="meter">
+                            <div>Hunger</div>
+                            <div className="meter-bar"><div className="meter-fill" style={{ width: `${hunger}%` }} /></div>
+                            <div style={{ textAlign: 'right' }}>{Math.round(hunger)}%</div>
+                        </div>
+                        <div className="meter">
+                            <div>Clean</div>
+                            <div className="meter-bar"><div className="meter-fill" style={{ width: `${clean}%` }} /></div>
+                            <div style={{ textAlign: 'right' }}>{Math.round(clean)}%</div>
+                        </div>
+                        <div className="meter">
+                            <div>Love</div>
+                            <div className="meter-bar"><div className="meter-fill" style={{ width: `${love}%` }} /></div>
+                            <div style={{ textAlign: 'right' }}>{Math.round(love)}%</div>
+                        </div>
+                    </div>
+
+                    <div className="pet-controls">
+                        <button className="btn" style={{ padding: '10px 18px', fontSize: '12px' }} onClick={Feed}>
+                            Feed {petType === 'cat' ? '🐟' : '🦴'}
+                        </button>
+                        <button className="btn" style={{ padding: '10px 18px', fontSize: '12px' }} onClick={Pet}>
+                            Pet 🫶
+                        </button>
+                        <button
+                            className="btn"
+                            style={{
+                                padding: '10px 18px',
+                                fontSize: '12px',
+                                background: 'linear-gradient(135deg, var(--sakura-purple) 0%, var(--sakura-pink-light) 100%)'
+                            }}
+                            onClick={CleanIt}
+                        >
+                            Clean 🫧
+                        </button>
+                    </div>
+
+                    <div style={{ marginTop: '14px', padding: '12px', borderRadius: '12px', background: 'rgba(255, 248, 240, 0.9)' }}>
+                        <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+                            💝 This is a stress-relief mini game. If you’re having strong pain, please consider rest, hydration,
+                            a warm compress, and professional medical support if needed.
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        function MiniGames() {
+            const [soundOn, setSoundOn] = useState(false);
+
+            const handleSoftReward = () => {
+                if (soundOn) {
+                    try {
+                        playSoftChime();
+                    } catch (e) {
+                        // ignore audio errors quietly
+                    }
+                }
+            };
+
+            return (
+                <div className="container">
+                    <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                        <h1>🎮 Stress Relief Corner</h1>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>
+                            These tiny, cozy activities are here to help you breathe, soften cramps, and
+                            gently shift your focus when things feel heavy.
+                        </p>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
+                        <button
+                            type="button"
+                            className="btn"
+                            style={{ padding: '8px 18px', fontSize: '12px' }}
+                            onClick={() => setSoundOn(v => !v)}
+                        >
+                            {soundOn ? 'Sound: On 🔔' : 'Sound: Off 🔕'}
+                        </button>
+                    </div>
+                    <div className="two-column-grid">
+                        <BreathingGame onSoftReward={handleSoftReward} />
+                        <MemoryGame onSoftReward={handleSoftReward} />
+                    </div>
+                    <div style={{ marginTop: '24px' }} className="two-column-grid">
+                        <PetalTapGame onSoftReward={handleSoftReward} />
+                        <GratitudeGame onSoftReward={handleSoftReward} />
+                    </div>
+                    <div style={{ marginTop: '24px' }}>
+                        <PetCareGame onSoftReward={handleSoftReward} />
+                    </div>
+                </div>
+            );
+        }
+
+        function ExerciseAnimation({ area, shake }) {
+            const poseClass =
+                area === 'cramps' ? 'pose-cramps' :
+                area === 'back' ? 'pose-back' :
+                'pose-full';
+
+            const label =
+                area === 'cramps' ? 'Pelvic softening animation' :
+                area === 'back' ? 'Lower-back flow animation' :
+                'Full-body breathing animation';
+
+            return (
+                <div className="exercise-animation">
+                    <div className={`exercise-figure ${poseClass} ${shake ? 'relief-shake' : ''}`}>
+                        <div className="exercise-head" />
+                        <div className="exercise-body" />
+                        <div className="exercise-arm left" />
+                        <div className="exercise-arm right" />
+                        <div className="exercise-leg left" />
+                        <div className="exercise-leg right" />
+                    </div>
+                    <p style={{ marginTop: '10px', fontSize: '12px', color: 'var(--text-secondary)', textAlign: 'center' }}>
+                        {label} – imagine moving with this gentle rhythm while you breathe.
+                    </p>
+                </div>
+            );
+        }
+
+        function ExerciseTutorials() {
+            const [area, setArea] = useState('cramps');
+            const [soundOn, setSoundOn] = useState(false);
+            const [shakeOnce, setShakeOnce] = useState(false);
+
+            const handleTabChange = (next) => {
+                setArea(next);
+                setShakeOnce(false);
+                if (soundOn) {
+                    try {
+                        playSoftChime();
+                    } catch (e) {}
+                }
+            };
+
+            return (
+                <div className="container">
+                    <div style={{ marginBottom: '24px' }}>
+                        <h1>🧘‍♀️ Gentle Exercise for Cramps</h1>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>
+                            Simple, low-pressure movements designed to ease menstrual cramps, relax your
+                            lower back, and calm a tense body. Move slowly, stop if anything hurts, and
+                            breathe with kindness toward yourself.
+                        </p>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                        <div className="pill-tabs">
+                            <button
+                                className={`pill-tab ${area === 'cramps' ? 'active' : ''}`}
+                                onClick={() => handleTabChange('cramps')}
+                            >
+                                Lower belly cramps
+                            </button>
+                            <button
+                                className={`pill-tab ${area === 'back' ? 'active' : ''}`}
+                                onClick={() => handleTabChange('back')}
+                            >
+                                Lower back tension
+                            </button>
+                            <button
+                                className={`pill-tab ${area === 'full' ? 'active' : ''}`}
+                                onClick={() => handleTabChange('full')}
+                            >
+                                Full-body unwind
+                            </button>
+                        </div>
+                        <button
+                            type="button"
+                            className="btn"
+                            style={{ padding: '6px 14px', fontSize: '11px' }}
+                            onClick={() => setSoundOn(v => !v)}
+                        >
+                            {soundOn ? 'Sound: On 🔔' : 'Sound: Off 🔕'}
+                        </button>
+                    </div>
+
+                    <ExerciseAnimation area={area} shake={shakeOnce} />
+
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '18px' }}>
+                        <button
+                            type="button"
+                            className="btn"
+                            style={{ padding: '8px 16px', fontSize: '12px' }}
+                            onClick={() => {
+                                setShakeOnce(true);
+                                if (soundOn) {
+                                    try { playSoftChime(); } catch (e) {}
+                                }
+                                setTimeout(() => setShakeOnce(false), 700);
+                            }}
+                        >
+                            Relief shake ✨
+                        </button>
+                    </div>
+
+                    {area === 'cramps' && (
+                        <div className="card">
+                            <h2>🌸 For Lower Belly Cramps</h2>
+                            <ul className="exercise-list">
+                                <li className="exercise-item">
+                                    <strong>Supported Child’s Pose</strong> – Kneel on a soft surface,
+                                    bring your big toes together and knees wide, and fold forward over a
+                                    pillow. Let your belly rest on the support and breathe into your
+                                    lower abdomen for 8–10 slow breaths.
+                                    <div className="exercise-tag">Soothes uterus + relaxes hips</div>
+                                </li>
+                                <li className="exercise-item">
+                                    <strong>Seated Forward Fold (Very Gentle)</strong> – Sit with legs
+                                    extended or slightly bent, place a pillow on your thighs, and fold
+                                    forward only as far as feels cozy. Rest your head and arms, and take
+                                    6–8 breaths into your lower belly.
+                                    <div className="exercise-tag">Soft stretch for back of body</div>
+                                </li>
+                                <li className="exercise-item">
+                                    <strong>Knee-to-Chest Rock</strong> – Lie on your back, hug one or
+                                    both knees toward your chest, and gently rock side to side like a
+                                    slow massage for your lower back and pelvis.
+                                    <div className="exercise-tag">Relieves pelvic + back tightness</div>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+
+                    {area === 'back' && (
+                        <div className="card">
+                            <h2>🌙 For Lower Back Tension</h2>
+                            <ul className="exercise-list">
+                                <li className="exercise-item">
+                                    <strong>Cat–Cow Flow</strong> – On hands and knees, inhale to gently
+                                    arch your back (heart forward), exhale to round and soften your spine.
+                                    Repeat 8–10 times, matching the movement to your breath.
+                                    <div className="exercise-tag">Mobilizes spine + eases stiffness</div>
+                                </li>
+                                <li className="exercise-item">
+                                    <strong>Supported Bridge</strong> – Lie on your back with knees
+                                    bent, lift your hips slightly and place a pillow or cushion under
+                                    your sacrum (back of pelvis). Let your weight melt into the support
+                                    for 1–3 minutes.
+                                    <div className="exercise-tag">Gentle release for low back</div>
+                                </li>
+                                <li className="exercise-item">
+                                    <strong>Figure-4 Stretch</strong> – On your back, cross one ankle
+                                    over the opposite knee and gently draw the legs toward you. Breathe
+                                    into the outer hip and glute muscles.
+                                    <div className="exercise-tag">Opens hips that pull on back</div>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+
+                    {area === 'full' && (
+                        <div className="card">
+                            <h2>✨ Full-Body Unwind</h2>
+                            <ul className="exercise-list">
+                                <li className="exercise-item">
+                                    <strong>Side-Lying Fetal Curl</strong> – Lie on your side with a
+                                    pillow between your knees and another under your head. Curl gently
+                                    into a fetal position and rest here as long as you like.
+                                    <div className="exercise-tag">Nervous-system comfort pose</div>
+                                </li>
+                                <li className="exercise-item">
+                                    <strong>Wall-Leg Rest</strong> – Sit sideways next to a wall, then
+                                    swing your legs up so they rest on the wall while your back rests on
+                                    the floor. Soften your shoulders and breathe slowly for 3–5 minutes.
+                                    <div className="exercise-tag">Reduces heaviness in legs + pelvis</div>
+                                </li>
+                                <li className="exercise-item">
+                                    <strong>3-Minute Body Scan</strong> – Lie comfortably, place one
+                                    hand on your heart and one on your belly. Slowly scan from head to
+                                    toes, relaxing each area with your exhale.
+                                    <div className="exercise-tag">Connects body, breath, and emotions</div>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+
+                    <div className="card" style={{ marginTop: '20px', textAlign: 'center' }}>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '13px', lineHeight: '1.6', margin: 0 }}>
+                            💡 Move slowly, avoid anything sharp or intense, and always listen to your own body.
+                            These are gentle wellness suggestions, not medical instructions.
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Main App Component
+        function App() {
+            const [cycleData, setCycleData] = useState(null);
+            const [hasSetup, setHasSetup] = useState(false);
+            const [currentPage, setCurrentPage] = useState('dashboard');
+
+            useEffect(() => {
+                createPetals();
+                const saved = getCycleData();
+                if (saved) {
+                    setCycleData(saved);
+                    setHasSetup(true);
+                }
+            }, []);
+
+            const handleCycleSetup = (data) => {
+                setCycleData(data);
+                saveCycleData(data);
+                setHasSetup(true);
+            };
+
+            const handleResetSetup = () => {
+                clearCycleData();
+                setCycleData(null);
+                setHasSetup(false);
+                setCurrentPage('dashboard');
+            };
+
+            const renderPage = () => {
+                if (!hasSetup) {
+                    return <CycleSetup onSetup={handleCycleSetup} />;
+                }
+
+                switch (currentPage) {
+                    case 'dashboard':
+                        return <Dashboard cycleData={cycleData} />;
+                    case 'awareness':
+                        return <MenstruationAwareness />;
+                    case 'games':
+                        return <MiniGames />;
+                    case 'exercise':
+                        return <ExerciseTutorials />;
+                    case 'companion':
+                        return <div className="container"><div className="card"><h2>💬 AI Companion</h2><p>Companion feature coming soon!</p></div></div>;
+                    default:
+                        return <Dashboard cycleData={cycleData} />;
+                }
+            };
+
+            return (
+                <div>
+                    <Navigation
+                        currentPage={currentPage}
+                        onNavigate={setCurrentPage}
+                        onResetSetup={handleResetSetup}
+                        showReset={hasSetup}
+                    />
+                    {renderPage()}
+                </div>
+            );
+        }
+
+        // Render App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

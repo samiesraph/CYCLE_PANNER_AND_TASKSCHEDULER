@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Outfit:wght@300;400;500;600&family=Caveat:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Refined Sakura Palette - More Mature & Vibrant */
+  --sakura-pink: #FF9EBF;
+  --sakura-pink-light: #FFF0F6;
+  --sakura-pink-dark: #FF5C99;
+  --sakura-purple: #D4B3FF;
+  --sakura-purple-light: #F8F5FF;
+  --sakura-purple-dark: #9F7AEA;
+  --sakura-cream: #FFFCFA;
+  --sakura-cream-dark: #F7EBE8;
+
+  /* Neutrals */
+  --text-primary: #4A3B4A;
+  --text-secondary: #7D6B7D;
+  --text-glass: #5A4A5A;
+  --white-pure: #ffffff;
+
+  /* Advanced Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-hover: rgba(255, 255, 255, 0.85);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.9);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+  --glass-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.07),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  --backdrop-blur: blur(20px);
+  --backdrop-saturate: saturate(180%);
+
+  /* Modern Shadows */
+  --shadow-soft: rgba(255, 183, 213, 0.25);
+  --shadow-medium: rgba(159, 122, 234, 0.2);
+  --shadow-glow: 0 0 25px rgba(255, 92, 153, 0.3);
+  --shadow-float: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 2px 8px rgba(159, 122, 234, 0.15);
+  --shadow-md: 0 4px 20px rgba(159, 122, 234, 0.2);
+  --shadow-lg: 0 8px 40px rgba(159, 122, 234, 0.25);
+
+  /* Typography */
+  --font-display: 'Comfortaa', cursive;
+  --font-hand: 'Caveat', cursive;
+  --font-body: 'Outfit', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background:
+    radial-gradient(at 0% 0%, hsla(339, 100%, 94%, 1) 0, transparent 55%),
+    radial-gradient(at 50% 100%, hsla(270, 100%, 96%, 1) 0, transparent 55%),
+    radial-gradient(at 100% 0%, hsla(339, 100%, 94%, 1) 0, transparent 55%);
+  background-color: #FFF5F9;
+  background-attachment: fixed;
+  background-size: 200% 200%;
+  animation: gradientBG 20s ease infinite alternate;
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Sakura Petal Animation Container */
+.sakura-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sakura-petal {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, var(--sakura-pink), var(--sakura-pink-light));
+  border-radius: 50% 0 50% 0;
+  opacity: 0.7;
+  animation: float 15s infinite linear;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(255, 158, 191, 0.3));
+}
+
+.sakura-petal:nth-child(2n) {
+  background: linear-gradient(135deg, var(--sakura-purple), var(--sakura-purple-light));
+  animation-duration: 22s;
+  animation-delay: -2s;
+  width: 12px;
+  height: 12px;
+}
+
+.sakura-petal:nth-child(3n) {
+  background: var(--sakura-pink-light);
+  animation-duration: 28s;
+  animation-delay: -5s;
+  width: 10px;
+  height: 10px;
+  opacity: 0.5;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.8;
+  }
+
+  90% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(110vh) translateX(20vw) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--sakura-pink), var(--sakura-purple));
+  border-radius: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sakura-pink-dark);
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}

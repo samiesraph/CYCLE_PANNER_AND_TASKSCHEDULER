@@ -1,0 +1,234 @@
+.word-search {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.game-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.game-info h2 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.game-info p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.game-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.word-grid {
+  background: var(--sakura-pink-dark);
+  border: 3px solid var(--sakura-pink-dark);
+  border-radius: 8px;
+  padding: 8px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.grid-row {
+  display: flex;
+}
+
+.grid-cell {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 1px solid var(--sakura-pink);
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.grid-cell:hover {
+  background: var(--sakura-cream);
+}
+
+.grid-cell.selected {
+  background: var(--sakura-pink-light);
+  color: white;
+  font-weight: 700;
+}
+
+.grid-cell.found {
+  background: var(--sakura-purple-light);
+  color: var(--sakura-purple-dark);
+  font-weight: 700;
+}
+
+.word-list {
+  min-width: 200px;
+}
+
+.word-list h3 {
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.words-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.word-item {
+  padding: 8px 12px;
+  background: var(--sakura-cream);
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.word-item.found {
+  background: var(--sakura-pink);
+  color: white;
+  border: 2px solid var(--sakura-pink-dark);
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+.game-instructions {
+  background: rgba(255, 228, 240, 0.5);
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--sakura-pink);
+}
+
+.game-instructions h3 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.game-instructions ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.game-instructions li {
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+.completion-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.completion-content {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 228, 240, 0.7));
+  padding: 32px;
+  border-radius: 16px;
+  border: 2px solid var(--sakura-pink);
+  box-shadow: 0 8px 32px rgba(255, 107, 129, 0.2);
+}
+
+.completion-content h2 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  font-size: 1.8rem;
+}
+
+.completion-content p {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .word-search {
+    padding: 10px;
+  }
+
+  .game-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .word-grid {
+    padding: 6px;
+  }
+
+  .grid-cell {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+
+  .word-list {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .words-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 6px;
+  }
+
+  .progress {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .completion-content {
+    padding: 24px;
+    margin: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .word-grid {
+    padding: 4px;
+  }
+
+  .grid-cell {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+
+  .words-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .word-item {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+  }
+}

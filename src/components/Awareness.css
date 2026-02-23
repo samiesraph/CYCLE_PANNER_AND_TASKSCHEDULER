@@ -1,0 +1,547 @@
+.awareness {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg,
+      rgba(255, 183, 213, 0.05) 0%,
+      rgba(232, 213, 255, 0.05) 50%,
+      rgba(255, 228, 240, 0.05) 100%);
+}
+
+.awareness-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.awareness-header h1 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 2.5rem;
+}
+
+.awareness-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.setup-prompt {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--glass-bg);
+  border-radius: 16px;
+  backdrop-filter: var(--backdrop-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.setup-prompt h1 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.setup-prompt p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Current Phase Card */
+.current-phase-card {
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--backdrop-blur);
+  background-clip: padding-box;
+  position: relative;
+  margin-bottom: 32px;
+  border-radius: 20px;
+}
+
+.current-phase-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg,
+      var(--sakura-pink-light) 0%,
+      var(--sakura-purple-light) 100%);
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.phase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.phase-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.phase-description {
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.phase-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.energy-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--sakura-cream);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.energy-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 1s ease;
+  background: linear-gradient(90deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%);
+}
+
+.mood-indicator {
+  text-transform: capitalize;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  background: var(--sakura-pink-light);
+  color: var(--sakura-pink-dark);
+}
+
+/* Information Tabs */
+.awareness-content {
+  margin-bottom: 32px;
+}
+
+.info-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tab-button:hover {
+  background: var(--sakura-pink-light);
+  color: var(--text-primary);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-purple) 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 107, 129, 0.3);
+}
+
+.tab-content {
+  background: var(--glass-bg);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: var(--backdrop-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.info-section h3 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+}
+
+.info-section p {
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.key-points {
+  background: rgba(255, 228, 240, 0.5);
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 4px solid var(--sakura-pink);
+}
+
+.key-points h4 {
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.key-points ul {
+  list-style: none;
+  padding: 0;
+}
+
+.key-points li {
+  padding: 4px 0;
+  position: relative;
+  padding-left: 20px;
+}
+
+.key-points li::before {
+  content: '🌸';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  font-size: 0.8rem;
+}
+
+/* Hormone Phases */
+.hormone-phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.hormone-phase-card {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 16px;
+  border-radius: 12px;
+  border: var(--glass-border);
+  backdrop-filter: blur(5px);
+}
+
+.hormone-phase-card h4 {
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.hormone-details,
+.hormone-effects {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.hormone-details strong,
+.hormone-effects strong {
+  color: var(--sakura-pink-dark);
+}
+
+/* Symptoms Grid */
+.symptoms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.symptom-card {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 16px;
+  border-radius: 12px;
+  border: var(--glass-border);
+  backdrop-filter: blur(5px);
+}
+
+.symptom-card h4 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.symptom-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.symptom-card li {
+  padding: 4px 0;
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9rem;
+}
+
+.symptom-card li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--sakura-pink);
+  font-weight: bold;
+}
+
+/* Personalized Section */
+.personalized-section h3 {
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.personalized-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.personalized-card {
+  background: var(--glass-bg);
+  padding: 16px;
+  border-radius: 12px;
+  border: var(--glass-border);
+  backdrop-filter: blur(5px);
+}
+
+.personalized-card h4 {
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.personalized-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.personalized-card li {
+  padding: 6px 0;
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.personalized-card li::before {
+  content: '💕';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  font-size: 0.8rem;
+}
+
+.personalized-card p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.current-energy-card {
+  background: var(--glass-bg);
+  padding: 20px;
+  border-radius: 12px;
+  border: var(--glass-border);
+  backdrop-filter: var(--backdrop-blur);
+  text-align: center;
+}
+
+.current-energy-card h4 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.energy-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+
+.profile-item span:first-child {
+  color: var(--text-secondary);
+  min-width: 100px;
+}
+
+.mood-badge {
+  text-transform: capitalize;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  background: var(--sakura-pink-light);
+  color: var(--sakura-pink-dark);
+  font-weight: 500;
+}
+
+/* Precautions Section */
+.precautions-card {
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  backdrop-filter: var(--backdrop-blur);
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.precautions-card h2 {
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.precautions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.precaution-section h3 {
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.precaution-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.precaution-section li {
+  padding: 6px 0;
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.precaution-section li::before {
+  content: '⚠️';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  font-size: 0.8rem;
+}
+
+.health-note {
+  background: rgba(255, 228, 240, 0.6);
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 4px solid var(--sakura-pink);
+  text-align: center;
+}
+
+.health-note p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .awareness-header h1 {
+    font-size: 2rem;
+  }
+
+  .phase-stats {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .info-tabs {
+    justify-content: center;
+  }
+
+  .tab-button {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  .tab-content {
+    padding: 20px;
+  }
+
+  .hormone-phases,
+  .symptoms-grid,
+  .personalized-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .precautions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .current-energy-card {
+    padding: 16px;
+  }
+
+  .energy-profile {
+    align-items: stretch;
+  }
+
+  .profile-item {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .awareness {
+    padding: 20px 10px;
+  }
+
+  .awareness-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .phase-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .info-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tab-button {
+    width: 100%;
+    max-width: 200px;
+  }
+}

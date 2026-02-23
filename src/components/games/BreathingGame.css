@@ -1,0 +1,122 @@
+.breathing-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.breathing-card {
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.breathing-subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+.breathing-circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
+  min-height: 300px;
+}
+
+.breathing-circle {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  transition: transform 4s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.breathing-petal {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: var(--sakura-pink);
+  border-radius: 50% 0 50% 0;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) rotate(var(--rotation)) translateY(-100px);
+  opacity: 0.7;
+  animation: petal-glow 2s infinite ease-in-out;
+  animation-delay: var(--delay);
+}
+
+@keyframes petal-glow {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translateX(-50%) rotate(var(--rotation)) translateY(-100px) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) rotate(var(--rotation)) translateY(-100px) scale(1.2);
+  }
+}
+
+.breathing-center {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px var(--shadow-soft);
+}
+
+.breathing-instruction {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'Caveat', cursive;
+}
+
+.breathing-controls {
+  margin: 32px 0;
+}
+
+.breathing-tips {
+  margin-top: 32px;
+  padding: 16px;
+  background: var(--sakura-cream);
+  border-radius: 12px;
+  text-align: left;
+}
+
+.breathing-tips p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .breathing-circle {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .breathing-petal {
+    width: 25px;
+    height: 25px;
+    transform: translateX(-50%) rotate(var(--rotation)) translateY(-75px);
+  }
+  
+  .breathing-center {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .breathing-instruction {
+    font-size: 16px;
+  }
+}

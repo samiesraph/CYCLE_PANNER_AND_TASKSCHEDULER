@@ -1,0 +1,294 @@
+.flower-catcher {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.game-info {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.game-info h2 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.game-info p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.start-screen,
+.game-over-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.start-content,
+.game-over-content {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 228, 240, 0.7));
+  padding: 32px;
+  border-radius: 16px;
+  border: 2px solid var(--sakura-pink);
+  box-shadow: 0 8px 32px rgba(255, 107, 129, 0.2);
+  max-width: 500px;
+}
+
+.start-content h3,
+.game-over-content h3 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+}
+
+.game-rules {
+  text-align: left;
+  background: rgba(255, 228, 240, 0.5);
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.game-rules h4 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.game-rules ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.game-rules li {
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.final-score {
+  margin: 24px 0;
+}
+
+.final-score p {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.final-score h2 {
+  color: var(--sakura-pink-dark);
+  font-size: 3rem;
+  margin: 0;
+}
+
+.game-over-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.stat-value {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.stat-value.lives {
+  font-size: 1.5rem;
+}
+
+.pause-btn {
+  margin-left: auto;
+}
+
+.game-area {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  background: linear-gradient(180deg,
+    rgba(255, 183, 213, 0.1) 0%,
+    rgba(232, 213, 255, 0.1) 50%,
+    rgba(255, 228, 240, 0.2) 100%);
+  border-radius: 12px;
+  border: 3px solid var(--sakura-pink-light);
+  overflow: hidden;
+  cursor: none;
+  touch-action: none;
+}
+
+.falling-flower {
+  position: absolute;
+  font-size: 2rem;
+  pointer-events: none;
+  animation: fall linear;
+  transform: translateX(-50%);
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+@keyframes fall {
+  from {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  to {
+    transform: translateX(-50%) translateY(100vh) rotate(360deg);
+  }
+}
+
+.basket {
+  position: absolute;
+  bottom: 20px;
+  font-size: 3rem;
+  transform: translateX(-50%);
+  z-index: 3;
+  transition: left 0.1s ease-out;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  cursor: grab;
+}
+
+.basket:active {
+  cursor: grabbing;
+}
+
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(180deg,
+    rgba(255, 183, 213, 0.3) 0%,
+    rgba(255, 183, 213, 0.5) 100%);
+  border-top: 3px solid var(--sakura-pink);
+}
+
+.pause-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+.pause-content {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 228, 240, 0.9));
+  padding: 32px;
+  border-radius: 16px;
+  border: 2px solid var(--sakura-pink);
+  text-align: center;
+}
+
+.pause-content h3 {
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.game-instructions {
+  text-align: center;
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 228, 240, 0.5);
+  border-radius: 8px;
+}
+
+.game-instructions p {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .flower-catcher {
+    padding: 10px;
+  }
+
+  .game-area {
+    height: 400px;
+  }
+
+  .falling-flower {
+    font-size: 1.5rem;
+  }
+
+  .basket {
+    font-size: 2.5rem;
+  }
+
+  .game-stats {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pause-btn {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .start-content,
+  .game-over-content {
+    padding: 24px;
+    margin: 10px;
+  }
+
+  .final-score h2 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-area {
+    height: 350px;
+  }
+
+  .falling-flower {
+    font-size: 1.3rem;
+  }
+
+  .basket {
+    font-size: 2rem;
+  }
+
+  .start-content,
+  .game-over-content {
+    padding: 20px;
+  }
+}

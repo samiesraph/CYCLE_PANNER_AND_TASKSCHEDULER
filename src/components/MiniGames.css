@@ -1,0 +1,96 @@
+.mini-games {
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.games-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.games-header p {
+  color: var(--text-secondary);
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.game-card {
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+.game-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  animation: gentle-bounce 2s infinite ease-in-out;
+}
+
+.game-description {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 16px 0 24px;
+}
+
+.game-container {
+  animation: fadeIn 0.5s ease;
+}
+
+.back-button {
+  margin-bottom: 24px;
+}
+
+.games-note {
+  max-width: 600px;
+  margin: 40px auto 0;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.games-note p {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .games-grid {
+    grid-template-columns: 1fr;
+  }
+}

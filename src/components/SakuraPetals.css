@@ -1,0 +1,60 @@
+.sakura-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sakura-petal {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--sakura-pink);
+  border-radius: 50% 0 50% 0;
+  opacity: 0.6;
+  animation: float infinite ease-in-out;
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.sakura-petal:nth-child(2n) {
+  background: var(--sakura-purple);
+  width: 18px;
+  height: 18px;
+}
+
+.sakura-petal:nth-child(3n) {
+  background: var(--sakura-pink-light);
+  width: 15px;
+  height: 15px;
+}
+
+.sakura-petal:nth-child(4n) {
+  background: var(--sakura-pink-dark);
+  width: 22px;
+  height: 22px;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(-100px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(50vh) translateX(20px) rotate(180deg);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(100vh) translateX(-20px) rotate(360deg);
+    opacity: 0;
+  }
+}
